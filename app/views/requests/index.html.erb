@@ -1,0 +1,43 @@
+<h1 class="mb-4">Winnipeg 311 Requests</h1>
+
+<%= form_with url: requests_path, method: :get, class: "row g-2 mb-4" do %>
+  <div class="col-md-3">
+    <%= select_tag :category,
+        options_from_collection_for_select(Category.all, :id, :name, params[:category]),
+        include_blank: "All Categories",
+        class: "form-select" %>
+  </div>
+
+  <div class="col-md-4">
+    <%= text_field_tag :search, params[:search],
+        placeholder: "Search...",
+        class: "form-control" %>
+  </div>
+
+  <div class="col-md-2">
+    <%= submit_tag "Filter", class: "btn btn-primary w-100" %>
+  </div>
+<% end %>
+
+<div class="row">
+  <% @requests.each do |r| %>
+    <div class="col-md-6 mb-3">
+      <div class="card shadow-sm p-3">
+        <h5>
+          <%= link_to (r.title || "Request ##{r.id}"), request_path(r), class: "text-decoration-none" %>
+        </h5>
+
+        <p class="mb-1"><strong>Status:</strong> <%= r.status %></p>
+
+        <p>
+          <strong>Category:</strong>
+          <%= link_to r.category.name, category_path(r.category), class: "text-success" %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-4">
+  <%= paginate @requests %>
+</div>

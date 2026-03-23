@@ -1,0 +1,18 @@
+<% if @request %>
+  <div class="card shadow p-4">
+    <h2><%= @request.title %></h2>
+
+    <p><strong>Status:</strong> <%= @request.status %></p>
+
+    <p><strong>Description:</strong> <%= @request.description %></p>
+
+    <p>
+      <strong>Category:</strong>
+      <%= link_to @request.category.name, category_path(@request.category), class: "text-success" %>
+    </p>
+
+    <%= link_to "⬅ Back", requests_path, class: "btn btn-secondary mt-3" %>
+  </div>
+<% else %>
+  <p>Request not found</p>
+<% end %>
